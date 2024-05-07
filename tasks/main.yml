@@ -4,12 +4,16 @@
   - name: Copy /etc/blackbox_exporter/config.yml
     copy:
       src: "{{ blackbox_exporter.config_path }}"
-      dest: /etc/blackbox_exporter
+      dest: /etc/blackbox_exporter/config.yml
 
-  - name: Read file content
-    ansible.builtin.shell: cat /etc/blackbox_exporter/config.yml
-    register: file_content
-
-  - name: Print file content
-    ansible.builtin.debug:
-      msg: "{{ file_content.stdout }}"
+  - name: Run Blackbox Exporter container
+    community.docker.docker_container:
+      name: blackbox-exporter
+      image: quay.io/prometheus/blackbox-exporter:v0.24.0
+      state: started
+      restart_policy: always
+      privileged: true
+      volumes:
+        - "/etc/blackbox_exporter/config.yml:/etc/blackbox_exporter/config.yml"
+      ports:
+        - "{{ blackbox_exporter.port }}:9115"
