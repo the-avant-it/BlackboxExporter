@@ -1,0 +1,14 @@
+---
+- become: yes
+  block:
+  - name: Run Blackbox Exporter container
+    docker_container:
+      name: blackbox-exporter
+      image: quay.io/prometheus/blackbox-exporter:v0.24.0
+      state: started
+      restart_policy: always
+      privileged: true
+      volumes:
+        - "{{ blackbox_exporter.config_path }}:/etc/blackbox_exporter/blackbox.yml"
+      ports:
+        - "{{ blackbox_exporter.port }}:9115"
