@@ -1,6 +1,11 @@
 ---
 - become: yes
   block:
+  - name: Copy /etc/blackbox_exporter/config.yml
+    copy:
+      src: "{{ blackbox_exporter.config_path }}"
+      dest: /etc/blackbox_exporter/config.yml
+
   - name: Run Blackbox Exporter container
     community.docker.docker_container:
       name: blackbox-exporter
@@ -9,6 +14,6 @@
       restart_policy: always
       privileged: true
       volumes:
-        - "{{ blackbox_exporter.config_path }}:/etc/blackbox_exporter/blackbox.yml"
+        - "/etc/blackbox_exporter:/etc/blackbox_exporter/config.yml"
       ports:
         - "{{ blackbox_exporter.port }}:9115"
