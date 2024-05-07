@@ -2,7 +2,7 @@
 - become: yes
   block:
   - name: Run Blackbox Exporter container
-    docker_container:
+    community.docker.docker_container:
       name: blackbox-exporter
       image: quay.io/prometheus/blackbox-exporter:v0.24.0
       state: started
