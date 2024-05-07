@@ -4,7 +4,7 @@
   - name: Copy /etc/blackbox_exporter/config.yml
     copy:
       src: "{{ blackbox_exporter.config_path }}"
-      dest: /etc/blackbox_exporter/config.yml
+      dest: /etc/blackbox_exporter
 
   - name: Read file content
     ansible.builtin.shell: cat /etc/blackbox_exporter/config.yml
