@@ -19,3 +19,8 @@
 
   - name: Restart Blackbox Exporter container
     command: docker restart blackbox-exporter
+
+  - name: Start Blackbox Exporter container
+    community.docker.docker_container:
+      name: blackbox-exporter
+      state: started
