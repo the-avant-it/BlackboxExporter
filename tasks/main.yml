@@ -18,6 +18,4 @@
         - "{{ blackbox_exporter.port }}:9115"
 
   - name: Restart Blackbox Exporter container
-    community.docker.docker_container:
-      name: blackbox-exporter
-      state: restarted
+    command: docker restart blackbox-exporter
