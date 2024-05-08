@@ -12,8 +12,7 @@
       image: quay.io/prometheus/blackbox-exporter:v0.24.0
       state: started
       restart_policy: always
-      privileged: true
       volumes:
-        - "/etc/blackbox_exporter/config.yml:/etc/blackbox_exporter/config.yml"
+        - "/etc/blackbox_exporter:/etc/blackbox_exporter"
       ports:
         - "{{ blackbox_exporter.port }}:9115"
