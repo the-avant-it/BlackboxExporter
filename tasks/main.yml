@@ -16,3 +16,8 @@
         - "/etc/blackbox_exporter:/etc/blackbox_exporter"
       ports:
         - "{{ blackbox_exporter.port }}:9115"
+
+  - name: Restart Blackbox Exporter container
+    community.docker.docker_container:
+      name: blackbox-exporter
+      state: restarted
