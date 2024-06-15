@@ -1,22 +1,25 @@
 ---
 - become: yes
   block:
+
   - name: Copy /etc/blackbox_exporter/config.yml
     copy:
       src: "{{ blackbox_exporter.config_path }}"
+      # Copy will not create blackbox_exporter dir if missing!
       dest: /etc/blackbox_exporter/config.yml
 
   - name: Run Blackbox Exporter container
     community.docker.docker_container:
       name: blackbox-exporter
-      image: quay.io/prometheus/blackbox-exporter:v0.24.0
+      image: "{{ blackbox_exporter.docker_image }}"
       state: started
       restart_policy: always
       volumes:
-        - "/etc/blackbox_exporter:/etc/blackbox_exporter"
+      - "/etc/blackbox_exporter:/etc/blackbox_exporter"
       ports:
-        - "{{ blackbox_exporter.port }}:9115"
+      - "{{ blackbox_exporter.container_port }}:{{ blackbox_exporter.port }}"
 
+  # Use handlers!
   - name: Restart Blackbox Exporter container
     command: docker restart blackbox-exporter
 

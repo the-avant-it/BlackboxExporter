@@ -4,6 +4,10 @@ Install BlackBoxExporter
 
 # Changelog
 
+## 2.0.1
+
+- Radmir fixes
+
 ## 2.0.0
 
 - fix

@@ -1,2 +1,5 @@
 ---
-# defaults file for .
+blackbox_exporter:
+  docker_image: docker-proxy-pub.avant-it.ru/prometheus/blackbox-exporter:v0.24.0
+  container_port: 9115
+  port: 9115
