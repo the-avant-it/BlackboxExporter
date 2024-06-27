@@ -8,9 +8,8 @@
       state: directory
 
   - name: Copy /etc/blackbox_exporter/config.yml
-    copy:
-      src: "{{ blackbox_exporter.config_path }}"
-      # Copy will not create blackbox_exporter dir if missing!
+    template:
+      src: "{{ blackbox_exporter.config_template_path }}"
       dest: /etc/blackbox_exporter/config.yml
 
   - name: Run Blackbox Exporter container

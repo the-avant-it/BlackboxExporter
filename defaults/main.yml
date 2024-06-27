@@ -1,6 +1,6 @@
 ---
 blackbox_exporter:
   docker_image: docker-proxy-pub.avant-it.ru/prometheus/blackbox-exporter:v0.24.0
-  config_path: templates/blackbox-exporter/config.yaml
+  config_template_path: templates/blackbox-exporter/config.yaml.j2
   container_port: 9115
   port: 9115
