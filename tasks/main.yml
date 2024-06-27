@@ -2,6 +2,11 @@
 - become: yes
   block:
 
+  - name: Create /etc/blackbox_exporter directory
+    file:
+      path: /etc/blackbox_exporter
+      state: directory
+
   - name: Copy /etc/blackbox_exporter/config.yml
     copy:
       src: "{{ blackbox_exporter.config_path }}"
