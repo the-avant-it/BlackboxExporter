@@ -7,10 +7,12 @@
       path: /etc/blackbox_exporter
       state: directory
 
-  - name: Copy /etc/blackbox_exporter/config.yml
+  - name: Create /etc/blackbox_exporter/config.yml from template {{ blackbox_exporter.config_template_path }}
     template:
       src: "{{ blackbox_exporter.config_template_path }}"
       dest: /etc/blackbox_exporter/config.yml
+    notify: 
+    - Restart Blackbox Exporter
 
   - name: Run Blackbox Exporter container
     community.docker.docker_container:
@@ -22,12 +24,5 @@
       - "/etc/blackbox_exporter:/etc/blackbox_exporter"
       ports:
       - "{{ blackbox_exporter.container_port }}:{{ blackbox_exporter.port }}"
-
-  # Use handlers!
-  - name: Restart Blackbox Exporter container
-    command: docker restart blackbox-exporter
-
-  - name: Start Blackbox Exporter container
-    community.docker.docker_container:
-      name: blackbox-exporter
-      state: started
+    notify: 
+    - Restart Blackbox Exporter
