@@ -1,0 +1,3 @@
+hide_secrtets_from_log: false
+blackbox_exporter:
+  config_template_path: templates/config.yaml.j2

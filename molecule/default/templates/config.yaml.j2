@@ -1,0 +1,132 @@
+# failed:
+# ! 403 forbidden        - ecos-api-doc.hostname
+# ! connection timeout   - processing.hostname
+#
+# healthcheck 404:
+# Page not found    - admin.ecosapi.link
+# Page not found    - ecosapi.link/v2
+# Ecos              - ecosapi.link/v1
+# Cannot GET /      - geoip.hostname
+# Cannot GET /      - geoip.ecos.finance
+#
+# healthcheck 200:
+# enable javascript - cp.hostname
+# enable javascript - cp.ecos.business
+# enable javascript - cp.ecos.finance
+# ECOS              - de.hostname
+# ECOS              - hostname
+# ECOS              - ecos.business
+# ECOS              - ecos.finance
+# ECOS              - mining.hostname
+# ECOS              - nft.hostname
+# ECOS              - www.hostname
+# ECOS              - www.ecos.business
+# ECOS              - www.ecos.finance
+
+modules:
+
+  http_2xx:
+    prober: http
+    http:
+      preferred_ip_protocol: ip4
+
+  ecos_am_2xx:
+    prober: http
+    http:
+      preferred_ip_protocol: ip4
+      headers:
+        Host: hostname
+      valid_status_codes: [200]
+      
+  ecos_business_2xx:
+    prober: http
+    http:
+      preferred_ip_protocol: ip4
+      headers:
+        Host: ecos.business   
+      valid_status_codes: [200]         
+
+  apps_are_up:
+    prober: http
+    timeout: 15s
+    http:
+      method: GET
+      no_follow_redirects: false
+      valid_status_codes: [200,302,301,304,403]
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      # fail_if_body_not_matches_regexp: 
+      # - "You need to enable JavaScript to run this app|ECOS"
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true
+
+  apis_are_up:
+    prober: http
+    timeout: 15s
+    http:
+      method: GET
+      no_follow_redirects: false
+      valid_status_codes: [404]
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      # fail_if_body_not_matches_regexp: 
+      # - "{\"errors\":{\"_\":\"Page not found\"}}|Ecos|Cannot GET /"
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true
+
+  infra_is_up:
+    prober: http
+    timeout: 15s
+    http:
+      method: GET
+      no_follow_redirects: false
+      valid_status_codes: [200,404]
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      fail_if_body_not_matches_regexp: 
+      - mikrotik_logo.png|about.gitlab.com|The maximum number of buckets a single datasource can return|sentry.io/privacy|www.zabbix.com
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true
+
+  infra_is_up_401:
+    prober: http
+    timeout: 15s
+    http:
+      method: GET
+      no_follow_redirects: false
+      valid_status_codes: [401]
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true
+
+  # https://blog.matthoran.com/2022/10/15/blackbox-alerting-with-prometheus/
+  # smtp_start_tls:
+  #   prober: tcp
+  #   timeout: 15s
+  #   tcp:
+  #     preferred_ip_protocol: ip4
+  #     query_response:     
+  #     - expect: "^220 ([^ ]+) ESMTP (.+)$"
+  #     - send: "EHLO prober"
+  #     - expect: "^250-STARTTLS"
+  #     - send: "STARTTLS"
+  #     - expect: "^220"
+  #     - starttls: true
+  #     - send: "EHLO prober"
+  #     - expect: "^250-AUTH"
+  #     - send: "QUIT"
+
+  tls_up:
+    prober: tcp
+    tcp:
+      tls: true
+      tls_config: 
+        insecure_skip_verify: true
+
+  tcp_up:
+    prober: tcp
