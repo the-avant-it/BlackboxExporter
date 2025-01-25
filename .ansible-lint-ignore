@@ -18,3 +18,5 @@ molecule/default/verify.yml no-changed-when
 tasks/main.yml name[missing]
 tasks/main.yml name[template]
 meta/main.yml schema[meta]
+handlers/main.yml no-changed-when
+tasks/main.yml risky-file-permissions
