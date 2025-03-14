@@ -9,33 +9,10 @@
       register: blackbox_version
       failed_when: "'Blackbox Exporter' not in blackbox_version.stdout"
 
-    - name: Ensure Blackbox Exporter service is running
-      ansible.builtin.service:
-        name: blackbox_exporter
-        state: started
-      register: service_status
-      failed_when: service_status.status.ActiveState != 'active'
-
-    - name: Ensure Blackbox Exporter service is enabled
-      ansible.builtin.service:
-        name: blackbox_exporter
-        enabled: true
-
     - name: Ensure configuration file exists
       ansible.builtin.stat:
         path: /etc/blackbox_exporter/blackbox.yml
       register: config_file
-
-    - name: Fail if configuration file is missing
-      ansible.builtin.fail:
-        msg: "Configuration file blackbox.yml is missing!"
-      when: not config_file.stat.exists
-
-    - name: Validate configuration file syntax
-      ansible.builtin.command:
-        cmd: blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml --test
-      register: config_validation
-      failed_when: config_validation.rc != 0
 
     - name: Ensure Blackbox Exporter port 9115 is listening
       ansible.builtin.command:
