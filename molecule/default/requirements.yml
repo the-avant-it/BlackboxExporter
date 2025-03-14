@@ -2,7 +2,7 @@
 roles: 
 - src: git+ssh://git@gitlab.avant-it.ru/main/common/ansibleroles/common.common.git
   scm: git
-  version: 1.9.6
+  version: 1.12.0
   name: common
 - src: git+ssh://git@gitlab.avant-it.ru/main/common/ansibleroles/common.ansiblecontroller.git
   scm: git
@@ -10,5 +10,5 @@ roles:
   name: ansible-controller
 - src: git+ssh://git@gitlab.avant-it.ru/main/common/ansibleroles/common.docker.git
   scm: git
-  version: 2.5.1
+  version: 2.7.4
   name: docker
