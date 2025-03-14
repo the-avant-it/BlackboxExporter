@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure configuration file exists
       ansible.builtin.stat:
-        path: /etc/blackbox_exporter/blackbox.yml
+        path: /etc/blackbox_exporter/config.yml
       register: config_file
 
     - name: Get container info
