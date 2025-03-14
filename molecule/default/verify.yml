@@ -10,12 +10,12 @@
 
     - name: Get container info
       community.docker.docker_container_info:
-        name: backbox-exporter
+        name: blackbox-exporter
       register: container_info
 
     - name: Fail if container is not running
       fail:
-        msg: "Container 'backbox-exporter' is not running!"
+        msg: "Container 'blackbox-exporter' is not running!"
       when: not container_info.exists or container_info.container.State.Running == false
 
     - name: Ensure Blackbox Exporter port 9115 is listening
